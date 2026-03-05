@@ -35,6 +35,7 @@ PROJECT_ADDITIONAL_INSTALLED_APPS = [
     'drivers',
     'vehicles',
     'orders',
+    'common',
 ]
 
 INSTALLED_APPS = [
