@@ -12,6 +12,7 @@ class VehicleType(models.TextChoices):
 
 
 class Vehicle(models.Model):
+
     plate_number = models.CharField(
         max_length=15,
         unique=True,
@@ -19,15 +20,18 @@ class Vehicle(models.Model):
             validate_plate_number,
         ],
     )
+
     brand = models.CharField(
         max_length=50
     )
+
     capacity = models.PositiveIntegerField(
         validators=[
             MinValueValidator(100),
         ],
         help_text="Capacity in kilograms"
     )
+
     fuel_consumption = models.DecimalField(
         max_digits=5,
         decimal_places=2,
@@ -39,8 +43,9 @@ class Vehicle(models.Model):
 
     vehicle_type = models.CharField(
         max_length=20,
-        choices=VehicleType.choices,
+        choices=VehicleType,
     )
+
     drivers = models.ManyToManyField(
         "drivers.Driver",
         related_name="vehicles",
@@ -48,6 +53,9 @@ class Vehicle(models.Model):
     )
 
     class Meta:
+        verbose_name = "Vehicle"
+        verbose_name_plural = "Vehicles"
+
         indexes = [
             models.Index(
                 fields=["plate_number"]
@@ -71,6 +79,7 @@ class Vehicle(models.Model):
 
 
 class TankTruck(Vehicle):
+
     liquid_type = models.CharField(
         max_length=50,
         help_text="Type of liquid transported"
@@ -112,4 +121,3 @@ class ExpressVan(Vehicle):
     def save(self, *args, **kwargs):
         self.vehicle_type = VehicleType.EXPRESS
         super().save(*args, **kwargs)
-
