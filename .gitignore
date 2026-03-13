@@ -7,3 +7,5 @@ __pycache__/
 .venvgit
 
 db.sqlite3
+
+project_requirements.docx
