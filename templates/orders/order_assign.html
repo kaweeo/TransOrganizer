@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Assign Order #{{ order.id }} | TransOrganizer{% endblock %}
+
+{% block content %}
+<div class="mb-3">
+    <h1 class="h3">Assign Order #{{ order.id }}</h1>
+    <p class="text-muted">Match this pending order to a driver and vehicle.</p>
+</div>
+{% url 'order-detail' order.pk as order_cancel_url %}
+{% include "partials/_form.html" with submit_label="Assign Order" cancel_url=order_cancel_url %}
+{% endblock %}

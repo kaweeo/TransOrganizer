@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block title %}Delete Vehicle | TransOrganizer{% endblock %}
+
+{% block content %}
+<div class="hero-card p-5">
+    <h1 class="h4">Delete Vehicle {{ object.plate_number }}</h1>
+    <p class="text-muted">This action removes the vehicle from the fleet registry.</p>
+    <form method="post" class="d-flex flex-wrap gap-2">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-brand">Confirm Delete</button>
+        <a class="btn btn-outline-secondary" href="{% url 'vehicle-detail' object.pk %}">Cancel</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Create Order | TransOrganizer{% endblock %}
+
+{% block content %}
+<div class="mb-3">
+    <h1 class="h3">Create Order</h1>
+    <p class="text-muted">Register a new shipment request. Assignment happens after creation.</p>
+</div>
+{% url 'order-list' as order_cancel_url %}
+{% include "partials/_form.html" with submit_label="Create Order" cancel_url=order_cancel_url %}
+{% endblock %}

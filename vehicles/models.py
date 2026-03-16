@@ -25,6 +25,12 @@ class Vehicle(models.Model):
         max_length=50
     )
 
+    photo_url = models.URLField(
+        blank=True,
+        null=True,
+        help_text="Link to a vehicle photo"
+    )
+
     capacity = models.PositiveIntegerField(
         validators=[
             MinValueValidator(100),

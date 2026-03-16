@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Update Driver | TransOrganizer{% endblock %}
+
+{% block content %}
+<div class="mb-3">
+    <h1 class="h3">Update Driver</h1>
+    <p class="text-muted">Edit driver information and contact details.</p>
+</div>
+{% url 'driver-detail' driver.pk as driver_cancel_url %}
+{% include "partials/_form.html" with submit_label="Save Changes" cancel_url=driver_cancel_url %}
+{% endblock %}

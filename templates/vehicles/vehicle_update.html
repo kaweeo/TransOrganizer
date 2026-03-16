@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Update Vehicle | TransOrganizer{% endblock %}
+
+{% block content %}
+<div class="mb-3">
+    <h1 class="h3">Update Vehicle</h1>
+    <p class="text-muted">Update vehicle data and driver assignments.</p>
+</div>
+{% url 'vehicle-detail' vehicle.pk as vehicle_cancel_url %}
+{% include "partials/_form.html" with submit_label="Save Changes" cancel_url=vehicle_cancel_url %}
+{% endblock %}

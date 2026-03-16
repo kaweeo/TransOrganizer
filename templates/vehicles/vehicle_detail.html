@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Vehicle {{ vehicle.plate_number }} | TransOrganizer{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+    <div>
+        <h1 class="h3 mb-1">{{ vehicle.plate_number }}</h1>
+        <p class="text-muted mb-0">{{ vehicle.brand }} · {{ vehicle.get_vehicle_type_display }}</p>
+    </div>
+    <div class="d-flex gap-2">
+        <a class="btn btn-outline-secondary" href="{% url 'vehicle-list' %}">Back to Vehicles</a>
+        <a class="btn btn-outline-brand" href="{% url 'vehicle-update' vehicle.pk %}">Edit</a>
+        <a class="btn btn-brand" href="{% url 'vehicle-delete' vehicle.pk %}">Delete</a>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-12 col-lg-6">
+        <div class="card hero-card p-4">
+            <h2 class="h5">Specifications</h2>
+            {% if vehicle.photo_url %}
+                <img class="img-fluid rounded mb-3" src="{{ vehicle.photo_url }}" alt="{{ vehicle.plate_number }}" style="max-height: 220px; object-fit: cover;">
+            {% endif %}
+            <p class="mb-1"><strong>Capacity:</strong> {{ vehicle.capacity }} kg</p>
+            <p class="mb-1"><strong>Fuel Consumption:</strong> {{ vehicle.fuel_consumption }} L/100km</p>
+            <p class="mb-1"><strong>Type:</strong> {{ vehicle.get_vehicle_type_display }}</p>
+        </div>
+    </div>
+    <div class="col-12 col-lg-6">
+        <div class="card hero-card p-4">
+            <h2 class="h5">Assigned Drivers</h2>
+            <ul class="mb-0">
+                {% for driver in vehicle.drivers.all %}
+                    <li><a href="{% url 'driver-detail' driver.pk %}">{{ driver.name }}</a></li>
+                {% empty %}
+                    <li>No assigned drivers.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

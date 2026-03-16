@@ -1,6 +1,8 @@
 from __future__ import annotations
 from typing import TYPE_CHECKING
+from decimal import Decimal
 from django.db import models
+from django.db.models import Sum
 from .choices import OrderStatus
 
 if TYPE_CHECKING:
@@ -36,6 +38,14 @@ class OrderQuerySet(models.QuerySet["Order"]):
     def by_vehicle(self, vehicle: models.Model) -> "OrderQuerySet":
         return self.filter(vehicle=vehicle)
 
+    def total_revenue(self) -> Decimal:
+        total = self.aggregate(total=Sum("price"))["total"]
+        return total if total is not None else Decimal("0")
+
+    def total_distance(self) -> int:
+        total = self.aggregate(total=Sum("distance_km"))["total"]
+        return int(total) if total is not None else 0
+
 
 class OrderManager(models.Manager["Order"]):
 
@@ -53,3 +63,9 @@ class OrderManager(models.Manager["Order"]):
 
     def cancelled(self) -> OrderQuerySet:
         return self.get_queryset().cancelled()
+
+    def total_revenue(self) -> Decimal:
+        return self.get_queryset().total_revenue()
+
+    def total_distance(self) -> int:
+        return self.get_queryset().total_distance()

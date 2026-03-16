@@ -1,0 +1,7 @@
+<div class="text-center py-5">
+    <div class="chip mb-3">No data</div>
+    <p class="text-muted">{{ message }}</p>
+    {% if action_url and action_label %}
+        <a class="btn btn-brand" href="{{ action_url }}">{{ action_label }}</a>
+    {% endif %}
+</div>

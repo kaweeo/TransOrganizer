@@ -10,6 +10,7 @@ class DriverCreateForm(forms.ModelForm):
         model = Driver
         fields = [
             "name",
+            "photo_url",
             "license_number",
             "phone_number",
             "hired_date",
@@ -17,6 +18,7 @@ class DriverCreateForm(forms.ModelForm):
 
         labels = {
             "name": "Driver Name",
+            "photo_url": "Photo URL",
             "license_number": "License Number",
             "phone_number": "Phone Number",
             "hired_date": "Hire Date",
@@ -40,6 +42,11 @@ class DriverCreateForm(forms.ModelForm):
             "phone_number": forms.TextInput(
                 attrs={
                 "placeholder": "+359888123456"
+                }
+            ),
+            "photo_url": forms.URLInput(
+                attrs={
+                "placeholder": "https://example.com/driver-photo.jpg"
                 }
             ),
             "hired_date": forms.DateInput(

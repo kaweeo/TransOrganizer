@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Add Driver | TransOrganizer{% endblock %}
+
+{% block content %}
+<div class="mb-3">
+    <h1 class="h3">Add Driver</h1>
+    <p class="text-muted">Register a new driver profile.</p>
+</div>
+{% url 'driver-list' as driver_cancel_url %}
+{% include "partials/_form.html" with submit_label="Create Driver" cancel_url=driver_cancel_url %}
+{% endblock %}

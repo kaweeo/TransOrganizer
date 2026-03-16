@@ -7,6 +7,12 @@ class Driver(models.Model):
         max_length=100,
     )
 
+    photo_url = models.URLField(
+        blank=True,
+        null=True,
+        help_text="Link to a driver photo"
+    )
+
     license_number = models.CharField(
         max_length=50,
         unique=True,

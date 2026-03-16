@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% load common_extras %}
+
+{% block title %}Dashboard | TransOrganizer{% endblock %}
+
+{% block content %}
+<div class="row g-4">
+    <div class="col-12">
+        <div class="hero-card p-4">
+            <div class="d-flex flex-wrap justify-content-between align-items-center">
+                <div>
+                    <h1 class="h3 mb-1">Operations Dashboard</h1>
+                    <p class="text-muted mb-0">Live overview of orders, revenue, and fleet performance.</p>
+                </div>
+                <div class="d-flex gap-2">
+                    <a class="btn btn-outline-brand" href="{% url 'order-list' %}">View Orders</a>
+                    <a class="btn btn-brand" href="{% url 'order-create' %}">Create Order</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-3">
+        {% include "partials/_card_stat.html" with label="Total Orders" value=total_orders %}
+    </div>
+    <div class="col-12 col-md-6 col-lg-3">
+        {% include "partials/_card_stat.html" with label="Pending" value=pending_orders %}
+    </div>
+    <div class="col-12 col-md-6 col-lg-3">
+        {% include "partials/_card_stat.html" with label="Completed" value=completed_orders %}
+    </div>
+    <div class="col-12 col-md-6 col-lg-3">
+        {% include "partials/_card_stat.html" with label="Total Distance" value=total_distance|floatformat:0 helper="km" %}
+    </div>
+    <div class="col-12 col-md-6">
+        {% include "partials/_card_stat.html" with label="Total Revenue" value=total_revenue|currency %}
+    </div>
+    <div class="col-12 col-md-6">
+        {% include "partials/_card_stat.html" with label="Total Profit" value=total_profit|currency %}
+    </div>
+    <div class="col-12">
+        <div class="card hero-card p-3">
+            <div class="d-flex flex-wrap justify-content-between align-items-center mb-2">
+                <h2 class="h5 mb-0">All Orders</h2>
+                <a class="btn btn-sm btn-outline-brand" href="{% url 'order-list' %}">View All</a>
+            </div>
+            {% if orders %}
+                <div class="table-responsive">
+                    <table class="table align-middle mb-0">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Route</th>
+                            <th>Vehicle Type</th>
+                            <th>Delivery</th>
+                            <th>Distance</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                            <th>Driver</th>
+                            <th>Vehicle</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for order in orders %}
+                            <tr>
+                                <td>#{{ order.id }}</td>
+                                <td>{{ order.origin }} → {{ order.destination }}</td>
+                                <td>{{ order.get_vehicle_type_display }}</td>
+                                <td>{{ order.delivery_date|default:"-" }}</td>
+                                <td>{{ order.distance_km }} km</td>
+                                <td>{{ order.price|currency }}</td>
+                                <td><span class="badge badge-pill {{ order.status|badge_class }}">{{ order.get_status_display }}</span></td>
+                                <td>{{ order.safe_driver.name|default:"-" }}</td>
+                                <td>{{ order.safe_vehicle.plate_number|default:"-" }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                {% url 'order-create' as order_create_url %}
+                {% include "partials/_empty_state.html" with message="No orders yet. Create the first shipment." action_url=order_create_url action_label="Create Order" %}
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

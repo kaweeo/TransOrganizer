@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load common_extras %}
+
+{% block title %}Driver {{ driver.name }} | TransOrganizer{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+    <div>
+        <h1 class="h3 mb-1">{{ driver.name }}</h1>
+        <p class="text-muted mb-0">License {{ driver.license_number }}</p>
+    </div>
+    <div class="d-flex gap-2">
+        <a class="btn btn-outline-secondary" href="{% url 'driver-list' %}">Back to Drivers</a>
+        <a class="btn btn-outline-brand" href="{% url 'driver-update' driver.pk %}">Edit</a>
+        <a class="btn btn-brand" href="{% url 'driver-delete' driver.pk %}">Delete</a>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-12 col-lg-6">
+        <div class="card hero-card p-4">
+            <h2 class="h5">Driver Details</h2>
+            {% if driver.photo_url %}
+                <img class="img-fluid rounded mb-3" src="{{ driver.photo_url }}" alt="{{ driver.name }}" style="max-height: 220px; object-fit: cover;">
+            {% endif %}
+            <p class="mb-1"><strong>Phone:</strong> {{ driver.phone_number }}</p>
+            <p class="mb-1"><strong>Hired Date:</strong> {{ driver.hired_date }}</p>
+        </div>
+    </div>
+    <div class="col-12 col-lg-6">
+        <div class="card hero-card p-4">
+            <h2 class="h5">Assigned Vehicles</h2>
+            <ul class="mb-0">
+                {% for vehicle in driver.vehicles.all %}
+                    <li><a href="{% url 'vehicle-detail' vehicle.pk %}">{{ vehicle.plate_number }} - {{ vehicle.get_vehicle_type_display }}</a></li>
+                {% empty %}
+                    <li>No vehicles assigned.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card hero-card p-4">
+            <h2 class="h5">Driver Performance</h2>
+            <p class="mb-1"><strong>Total Orders:</strong> {{ driver_order_count }}</p>
+            <p class="mb-1"><strong>Revenue:</strong> {{ driver_revenue|currency }}</p>
+            <p class="mb-1"><strong>Profit:</strong> {{ driver_profit|currency }}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load common_extras %}
+
+{% block title %}Order #{{ order.id }} | TransOrganizer{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+    <div>
+        <h1 class="h3 mb-1">Order #{{ order.id }}</h1>
+        <span class="badge badge-pill {{ order.status|badge_class }}">{{ order.get_status_display }}</span>
+    </div>
+    <div class="d-flex gap-2">
+        <a class="btn btn-outline-secondary" href="{% url 'order-list' %}">Back to Orders</a>
+        {% if order.status == "pending" %}
+            <a class="btn btn-outline-brand" href="{% url 'order-assign' order.pk %}">Assign</a>
+        {% endif %}
+        <a class="btn btn-outline-brand" href="{% url 'order-update' order.pk %}">Edit</a>
+        <a class="btn btn-brand" href="{% url 'order-delete' order.pk %}">Delete</a>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-12 col-lg-7">
+        <div class="card hero-card p-4">
+            <h2 class="h5">Route Details</h2>
+            <p class="mb-1"><strong>Origin:</strong> {{ order.origin }}</p>
+            <p class="mb-1"><strong>Destination:</strong> {{ order.destination }}</p>
+            <p class="mb-1"><strong>Delivery Date:</strong> {{ order.delivery_date|default:"-" }}</p>
+            <p class="mb-1"><strong>Distance:</strong> {{ order.distance_km }} km</p>
+            <p class="mb-1"><strong>Cargo Weight:</strong> {{ order.cargo_weight }} kg</p>
+            <p class="mb-1"><strong>Vehicle Type:</strong> {{ order.get_vehicle_type_display }}</p>
+        </div>
+    </div>
+    <div class="col-12 col-lg-5">
+        <div class="card hero-card p-4">
+            <h2 class="h5">Financials</h2>
+            <p class="mb-1"><strong>Price:</strong> {{ order.price|currency }}</p>
+            <p class="mb-1"><strong>Fuel Price:</strong> {{ order.fuel_price|currency }}</p>
+            <p class="mb-1"><strong>Transport Cost:</strong> {{ order.transport_cost|currency }}</p>
+            <p class="mb-1"><strong>Profit:</strong> {{ order.profit|currency }}</p>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card hero-card p-4">
+            <h2 class="h5">Assignments</h2>
+            <p class="mb-1"><strong>Driver:</strong> {{ order.safe_driver.name|default:"-" }}{% if order.safe_driver %} ({{ order.safe_driver.license_number }}){% endif %}</p>
+            <p class="mb-1"><strong>Vehicle:</strong> {{ order.safe_vehicle.plate_number|default:"-" }}{% if order.safe_vehicle %} - {{ order.safe_vehicle.get_vehicle_type_display }}{% endif %}</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

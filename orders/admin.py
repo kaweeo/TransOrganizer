@@ -9,8 +9,8 @@ class OrderAdmin(admin.ModelAdmin):
         "id",
         "origin",
         "destination",
-        "driver",
-        "vehicle",
+        "safe_driver",
+        "safe_vehicle",
         "status",
         "delivery_date",
     )
@@ -29,3 +29,11 @@ class OrderAdmin(admin.ModelAdmin):
         "driver",
         "vehicle",
     )
+
+    @admin.display(description="Driver")
+    def safe_driver(self, obj):
+        return obj.safe_driver or "-"
+
+    @admin.display(description="Vehicle")
+    def safe_vehicle(self, obj):
+        return obj.safe_vehicle or "-"

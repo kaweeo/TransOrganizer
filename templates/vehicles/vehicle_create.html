@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Add Vehicle | TransOrganizer{% endblock %}
+
+{% block content %}
+<div class="mb-3">
+    <h1 class="h3">Add Vehicle</h1>
+    <p class="text-muted">Register a new vehicle in the fleet.</p>
+</div>
+{% url 'vehicle-list' as vehicle_cancel_url %}
+{% include "partials/_form.html" with submit_label="Create Vehicle" cancel_url=vehicle_cancel_url %}
+{% endblock %}
