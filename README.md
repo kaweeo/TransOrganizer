@@ -84,8 +84,7 @@ python manage.py runserver
 
 - `docs/screenshots/`
 
-```md
-![Dashboard](docs/screenshots/transOrg_dash.png)
-![Orders](docs/screenshots/transOrg_orders.png)
-![Vehicles](docs/screenshots/transOrg_vehicles.png)
-```
+![Dashboard](https://github.com/kaweeo/TransOrganizer/blob/main/docs/screenshots/transOrg_dash.png)
+![Orders](https://github.com/kaweeo/TransOrganizer/blob/main/docs/screenshots/transOrg_orders.png)
+![Vehicles](https://github.com/kaweeo/TransOrganizer/blob/main/docs/screenshots/transOrg_vehicles.png)
+
