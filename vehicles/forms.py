@@ -3,6 +3,13 @@ from .models import Vehicle
 
 
 class VehicleCreateForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        drivers_field = self.fields.get("drivers")
+        if drivers_field:
+            drivers_field.required = False
+            if not self.instance.pk:
+                drivers_field.initial = []
 
 
     class Meta:
