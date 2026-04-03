@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+from datetime import timedelta
 from pathlib import Path
 from decouple import config
 from django.core.exceptions import ImproperlyConfigured
@@ -38,10 +39,13 @@ if not SECRET_KEY:
 def _parse_allowed_hosts(value):
     if value is None:
         return []
+
     if isinstance(value, (list, tuple)):
         return [str(s).strip() for s in value if str(s).strip()]
+
     if isinstance(value, str):
         return [s.strip() for s in value.split(",") if s.strip()]
+
     return [str(value).strip()] if str(value).strip() else []
 
 
@@ -153,6 +157,26 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
+
+COLLECTAPI_API_KEY = config("COLLECTAPI_API_KEY", default="")
+COLLECTAPI_BASE_URL = config(
+    "COLLECTAPI_BASE_URL",
+    default="https://api.collectapi.com",
+)
+COLLECTAPI_TIMEOUT = config("COLLECTAPI_TIMEOUT", cast=int, default=10)
+
+CELERY_BROKER_URL = config("REDIS_URL", default="redis://127.0.0.1:6379/0")
+CELERY_RESULT_BACKEND = config("REDIS_URL", default="redis://127.0.0.1:6379/0")
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
+CELERY_RESULT_SERIALIZER = "json"
+CELERY_TIMEZONE = TIME_ZONE
+CELERY_BEAT_SCHEDULE = {
+    "update-croatia-fuel-prices": {
+        "task": "common.tasks.update_croatia_fuel_prices",
+        "schedule": timedelta(days=3),
+    },
+}
 
 if not DEBUG:
     SECURE_SSL_REDIRECT = True

@@ -37,6 +37,36 @@
     <div class="col-12 col-md-6">
         {% include "partials/_card_stat.html" with label="Total Profit" value=total_profit|currency %}
     </div>
+    <div class="col-12 col-md-6">
+        <div class="card hero-card p-4">
+            <h2 class="h5 mb-3">Fuel Prices (Bulgaria)</h2>
+            <div class="d-flex flex-wrap gap-4">
+                <div>
+                    <div class="text-muted small">Gasoline</div>
+                    <div class="h4 mb-0">
+                        {% if fuel_prices.gasoline %}
+                            {{ fuel_prices.gasoline.price }} {{ fuel_prices.gasoline.currency }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </div>
+                </div>
+                <div>
+                    <div class="text-muted small">Diesel</div>
+                    <div class="h4 mb-0">
+                        {% if fuel_prices.diesel %}
+                            {{ fuel_prices.diesel.price }} {{ fuel_prices.diesel.currency }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <div class="text-muted small mt-3">
+                Updated: {{ fuel_prices_updated_at|date:"M d, Y H:i" | default:"-" }}
+            </div>
+        </div>
+    </div>
     <div class="col-12">
         <div class="card hero-card p-3">
             <div class="d-flex flex-wrap justify-content-between align-items-center mb-2">

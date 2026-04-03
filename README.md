@@ -60,6 +60,9 @@ Required variables:
 - `DB_PASSWORD`
 - `DB_HOST`
 - `DB_PORT`
+- `COLLECTAPI_API_KEY`
+- `COLLECTAPI_BASE_URL` (optional, defaults to `https://api.collectapi.com`)
+- `COLLECTAPI_TIMEOUT` (optional, seconds)
 
 ### 3) Create the database
 
@@ -75,6 +78,25 @@ python manage.py migrate
 python manage.py runserver
 ```
 
+## Fuel Price Cache (CollectAPI)
+
+The dashboard reads cached Croatia fuel prices stored in the database. Update the cache with:
+
+```bash
+python manage.py update_fuel_prices
+```
+
+Schedule the command every 3–4 days via cron or Celery beat.
+
+### Celery Beat (Optional)
+
+If you want to schedule updates with Celery + Redis, set `REDIS_URL` and run:
+
+```bash
+celery -A TransOrganizer worker -l info
+celery -A TransOrganizer beat -l info
+```
+
 ## Notes
 
 - The app uses PostgreSQL for local development and testing.
@@ -87,4 +109,3 @@ python manage.py runserver
 ![Dashboard](https://github.com/kaweeo/TransOrganizer/blob/main/docs/screenshots/transOrg_dash.png)
 ![Orders](https://github.com/kaweeo/TransOrganizer/blob/main/docs/screenshots/transOrg_orders.png)
 ![Vehicles](https://github.com/kaweeo/TransOrganizer/blob/main/docs/screenshots/transOrg_vehicles.png)
-
